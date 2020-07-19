@@ -1,94 +1,126 @@
 import React from 'react'
-import { Platform, Text, View, Button, ActivityIndicator, Image } from 'react-native'
+import { Text, View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import ExampleActions from 'App/Stores/Example/Actions'
-import { liveInEurope } from 'App/Stores/Example/Selectors'
+import { Text as RNEText } from 'react-native-elements'
+import { SearchBox, Card, Loader } from 'App/Components'
+import { AppLayout } from 'App/Constants'
+
 import Style from './ExampleScreenStyle'
-import { ApplicationStyles, Helpers, Images, Metrics } from 'App/Theme'
-
-/**
- * This is an example of a container component.
- *
- * This screen displays a little help message and informations about a fake user.
- * Feel free to remove it.
- */
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\nCmd+D or shake for dev menu.',
-  android: 'Double tap R on your keyboard to reload,\nShake or press menu button for dev menu.',
-})
+import { Helpers, Metrics, Breakpoints } from 'App/Theme'
 
 class ExampleScreen extends React.Component {
-  componentDidMount() {
-    this._fetchUser()
+  onEndReachedCalledDuringMomentum = false
+  constructor(props) {
+    super(props)
+    this.state = {
+      page: 1,
+      keywords: '',
+    }
   }
+
+  loadMoreResults = () => {
+    const { fetchResults } = this.props
+    const { page, keywords } = this.state
+    const newPage = page + 1
+
+    this.setState({ page: newPage })
+
+    fetchResults({ keywords, page: newPage })
+  }
+
+  onSearch = (keywords) => {
+    const { page } = this.state
+    const { fetchResults } = this.props
+    const newPage = 1
+    this.setState({ keywords, page: newPage })
+
+    fetchResults({ keywords, page: newPage })
+  }
+
+  renderItem = ({ item }) => {
+    return <Card data={item} />
+  }
+
+  keyExtractor = (item, index) => `${item.id}-${index}`
+  // keyExtractor = (item) => item.id ### you're returning duplicate products
 
   render() {
+    const { results, fetchResults, resultsIsLoading, breakpoint } = this.props
+    const { page, keywords } = this.state
+
+    let numOfColumns = 1
+
+    switch (breakpoint) {
+      case Breakpoints.Layouts.S:
+        numOfColumns = 1
+        break
+      case Breakpoints.Layouts.M:
+        numOfColumns = 2
+        break
+      case Breakpoints.Layouts.L:
+        numOfColumns = 3
+        break
+    }
+
     return (
       <View
-        style={[
-          Helpers.fill,
-          Helpers.rowMain,
-          Metrics.mediumHorizontalMargin,
-          Metrics.mediumVerticalMargin,
-        ]}
+        style={[Helpers.fill, Helpers.rowMain, Metrics.horizontalMargin, Metrics.verticalMargin]}
       >
-        {this.props.userIsLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-          <View>
-            <View style={Style.logoContainer}>
-              <Image style={Helpers.fullSize} source={Images.logo} resizeMode={'contain'} />
-            </View>
-            <Text style={Style.text}>To get started, edit App.js</Text>
-            <Text style={Style.instructions}>{instructions}</Text>
-            {this.props.userErrorMessage ? (
-              <Text style={Style.error}>{this.props.userErrorMessage}</Text>
-            ) : (
-              <View>
-                <Text style={Style.result}>
-                  {"I'm a fake user, my name is "}
-                  {this.props.user.name}
-                </Text>
-                <Text style={Style.result}>
-                  {this.props.liveInEurope ? 'I live in Europe !' : "I don't live in Europe."}
-                </Text>
-              </View>
-            )}
-            <Button
-              style={ApplicationStyles.button}
-              onPress={() => this._fetchUser()}
-              title="Refresh"
-            />
+        <View style={Helpers.fillCol}>
+          {resultsIsLoading && <Loader />}
+          <View style={Metrics.verticalPadding}>
+            <RNEText h2>Product Search</RNEText>
           </View>
-        )}
+          <View style={Metrics.verticalPadding}>
+            <SearchBox onPress={this.onSearch} />
+          </View>
+          <Text>{`page:${page}, num of results: ${results.length}, loading: ${resultsIsLoading}, breakpoint: ${breakpoint}, momentum: ${this.onEndReachedCalledDuringMomentum}`}</Text>
+
+          {results.length > 0 && (
+            <FlatList
+              key={`flatlist-${numOfColumns}-${keywords}`}
+              contentContainerStyle={Style.flatList}
+              data={results}
+              renderItem={this.renderItem}
+              keyExtractor={this.keyExtractor}
+              onEndReachedThreshold={0.9}
+              initialNumToRender={AppLayout.ITEMS_PER_PAGE}
+              numColumns={numOfColumns}
+              columnWrapperStyle={Style.row}
+              showsHorizontalScrollIndicator={false}
+              onMomentumScrollBegin={() => {
+                this.onEndReachedCalledDuringMomentum = false
+              }}
+              onEndReached={() => {
+                if (!this.onEndReachedCalledDuringMomentum) {
+                  this.loadMoreResults()
+                  this.onEndReachedCalledDuringMomentum = true
+                }
+              }}
+            />
+          )}
+        </View>
       </View>
     )
-  }
-
-  _fetchUser() {
-    this.props.fetchUser()
   }
 }
 
 ExampleScreen.propTypes = {
-  user: PropTypes.object,
-  userIsLoading: PropTypes.bool,
-  userErrorMessage: PropTypes.string,
-  fetchUser: PropTypes.func,
-  liveInEurope: PropTypes.bool,
+  results: PropTypes.any, //TODO: check for shape
+  resultsIsLoading: PropTypes.bool,
+  breakpoint: PropTypes.string,
 }
 
 const mapStateToProps = (state) => ({
-  user: state.example.user,
-  userIsLoading: state.example.userIsLoading,
-  userErrorMessage: state.example.userErrorMessage,
-  liveInEurope: liveInEurope(state),
+  results: state.example.results,
+  resultsIsLoading: state.example.resultsIsLoading,
+  breakpoint: state.appLayout.breakpoint,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUser: () => dispatch(ExampleActions.fetchUser()),
+  fetchResults: (actions) => dispatch(ExampleActions.fetchResults(actions)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExampleScreen)

@@ -8,18 +8,22 @@ import { userService } from 'App/Services/UserService'
  * This example saga contains only one to fetch fake user informations.
  * Feel free to remove it.
  */
-export function* fetchUser() {
-  // Dispatch a redux action using `put()`
-  // @see https://redux-saga.js.org/docs/basics/DispatchingActions.html
-  yield put(ExampleActions.fetchUserLoading())
+export function* fetchResults(actions) {
+  //console.log('fetchResults keywords and page', actions.data)
 
-  // Fetch user informations from an API
-  const user = yield call(userService.fetchUser)
-  if (user) {
-    yield put(ExampleActions.fetchUserSuccess(user))
+  // yield put(ExampleActions.fetchUserLoading())
+
+  const data = yield call(userService.fetchResults, actions.data || {})
+  if (data) {
+    yield put(
+      ExampleActions.fetchResultsSuccess({
+        results: data,
+        page: actions.data ? actions.data.page : 1,
+      })
+    )
   } else {
     yield put(
-      ExampleActions.fetchUserFailure('There was an error while fetching user informations.')
+      ExampleActions.fetchResultsFailure('There was an error while fetching user informations.')
     )
   }
 }

@@ -2,13 +2,13 @@ import { createActions } from 'reduxsauce'
 
 const { Types, Creators } = createActions({
   // Fetch user informations
-  fetchUser: null,
+  fetchResults: ['data'],
   // The operation has started and is loading
-  fetchUserLoading: null,
+  fetchResultsLoading: null,
   // User informations were successfully fetched
-  fetchUserSuccess: ['user'],
+  fetchResultsSuccess: ['data'],
   // An error occurred
-  fetchUserFailure: ['errorMessage'],
+  fetchResultsFailure: ['errorMessage'],
 })
 
 export const ExampleTypes = Types

@@ -5,9 +5,9 @@ const size = {
   h2: 34,
   h3: 30,
   input: 18,
-  regular: 17,
-  medium: 14,
-  small: 12,
+  regular: 16,
+  medium: 12,
+  small: 11,
 }
 
 export default StyleSheet.create({
@@ -22,5 +22,14 @@ export default StyleSheet.create({
   },
   normal: {
     fontSize: size.regular,
+  },
+  medium: {
+    fontSize: size.medium,
+  },
+  small: {
+    fontSize: size.small,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
 })
