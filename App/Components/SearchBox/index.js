@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { PropTypes } from 'prop-types'
-
-import Styles from './styles'
-
-import { Input, Button, Image } from 'react-native-elements'
+import { Input, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { Helpers, Colors } from 'App/Theme'
+import { Helpers, Metrics, Colors } from 'App/Theme'
+
+import Style from './styles.js'
 
 class SearchBox extends Component {
   constructor(props) {
@@ -21,38 +20,22 @@ class SearchBox extends Component {
     const { value } = this.state
     return (
       <View>
-        <View style={(Helpers.fillRow, { position: 'relative' })}>
+        <View style={(Helpers.fillRow, Style.relative)}>
           <View>
             <Input
-              inputContainerStyle={{
-                borderWidth: 2,
-                borderColor: Colors.gray1,
-              }}
-              containerStyle={{
-                paddingLeft: 0,
-                paddingRight: 75,
-              }}
-              inputStyle={{ height: 0 }}
+              inputContainerStyle={Style.input}
+              containerStyle={Style.inputContainer}
+              inputStyle={[Style.inputStyle, Metrics.horizontalPadding]}
               placeholder="Enter keywords..."
-              errorStyle={{ height: 0, margin: 0 }}
+              errorStyle={Style.inputError}
               onChangeText={(text) => this.setState({ value: text })}
             />
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              height: '100%',
-              width: 75,
-            }}
-          >
+          <View style={Style.buttonWrapper}>
             <Button
-              buttonStyle={{ paddingVertical: 0, height: '100%', borderRadius: 0 }}
-              containerStyle={{
-                borderRadius: 0,
-              }}
-              icon={<Icon name="search" size={15} color="white" />}
+              buttonStyle={Style.button}
+              containerStyle={Style.buttonContainer}
+              icon={<Icon name="search" size={15} color={Colors.white} />}
               title=""
               onPress={() => onPress(value)}
             />
@@ -63,6 +46,8 @@ class SearchBox extends Component {
   }
 }
 
-SearchBox.propTypes = {}
+SearchBox.propTypes = {
+  onPress: PropTypes.func,
+}
 
 export default SearchBox

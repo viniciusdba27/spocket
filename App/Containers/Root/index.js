@@ -22,7 +22,6 @@ class RootScreen extends Component {
     return (
       <View style={Helpers.fill}>
         <AppNavigator
-          // Initialize the NavigationService (see https://reactnavigation.org/docs/en/navigating-without-navigation-prop.html)
           ref={(navigatorRef) => {
             NavigationService.setTopLevelNavigator(navigatorRef)
           }}
@@ -34,13 +33,12 @@ class RootScreen extends Component {
 
 RootScreen.propTypes = {
   startup: PropTypes.func,
+  getWindowSize: PropTypes.func,
 }
-
-const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
   startup: () => dispatch(StartupActions.startup()),
   getWindowSize: () => dispatch(AppLayoutActions.getWindowSize()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RootScreen)
+export default connect(null, mapDispatchToProps)(RootScreen)

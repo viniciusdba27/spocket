@@ -38,9 +38,6 @@ export default {
   horizontalMargin: {
     marginHorizontal: normal,
   },
-  bottomMargin: {
-    marginBottom: normal,
-  },
   mediumHorizontalMargin: {
     marginHorizontal: medium,
   },

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { Config } from 'App/Config'
-import { is, curryN, gte } from 'ramda'
 
 const searchApi = axios.create({
   baseURL: Config.API_URL,
@@ -29,6 +28,6 @@ function fetchResults(actions) {
   })
 }
 
-export const userService = {
+export const ResultsService = {
   fetchResults,
 }

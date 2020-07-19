@@ -33,7 +33,7 @@ const Card = ({ data }) => (
       style={[Metrics.verticalPadding, Metrics.horizontalPadding, Helpers.fill, Style.description]}
     >
       <View style={Metrics.bottomMargin}>
-        <Text style={[Fonts.medium]} numberOfLines={1}>
+        <Text style={Fonts.medium} numberOfLines={1}>
           {data.title}
         </Text>
       </View>
@@ -49,7 +49,7 @@ const Card = ({ data }) => (
           <Flag id={lookup.byCountry(data.country_origin).iso2} size={0.08} />
         </View>
       </View>
-      <View style={[Helpers.fillCol]}>
+      <View style={Helpers.fillCol}>
         <View style={Helpers.fillRow}>
           <View style={[Helpers.fill, Style.price]}>
             <Text style={Fonts.small}>Price</Text>

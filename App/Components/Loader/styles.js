@@ -3,18 +3,18 @@ import { Colors } from 'App/Theme'
 
 export default StyleSheet.create({
   loader: {
-    position: 'absolute',
     bottom: 0,
-    left: 0,
-    width: '100%',
     height: 50,
+    left: 0,
+    position: 'absolute',
+    width: '100%',
     zIndex: 100,
   },
   wrapper: {
-    borderWidth: 1,
+    backgroundColor: Colors.white,
     borderColor: Colors.gray1,
     borderRadius: 100,
-    backgroundColor: Colors.white,
+    borderWidth: 1,
     padding: 10,
   },
 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, FlatList } from 'react-native'
+import { View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import ExampleActions from 'App/Stores/Example/Actions'
@@ -7,10 +7,11 @@ import { Text as RNEText } from 'react-native-elements'
 import { SearchBox, Card, Loader } from 'App/Components'
 import { AppLayout } from 'App/Constants'
 
-import Style from './ExampleScreenStyle'
+import Style from './styles'
 import { Helpers, Metrics, Breakpoints } from 'App/Theme'
 
 class ExampleScreen extends React.Component {
+  // eslint-disable-next-line
   onEndReachedCalledDuringMomentum = false
   constructor(props) {
     super(props)
@@ -46,8 +47,15 @@ class ExampleScreen extends React.Component {
   keyExtractor = (item, index) => `${item.id}-${index}`
   // keyExtractor = (item) => item.id ### you're returning duplicate products
 
+  endReached = () => {
+    if (!this.onEndReachedCalledDuringMomentum) {
+      this.loadMoreResults()
+      this.onEndReachedCalledDuringMomentum = true
+    }
+  }
+
   render() {
-    const { results, fetchResults, resultsIsLoading, breakpoint } = this.props
+    const { results, resultsIsLoading, breakpoint } = this.props
     const { page, keywords } = this.state
 
     let numOfColumns = 1
@@ -76,9 +84,10 @@ class ExampleScreen extends React.Component {
           <View style={Metrics.verticalPadding}>
             <SearchBox onPress={this.onSearch} />
           </View>
-          <Text>{`page:${page}, num of results: ${results.length}, loading: ${resultsIsLoading}, breakpoint: ${breakpoint}, momentum: ${this.onEndReachedCalledDuringMomentum}`}</Text>
+          {/* <Text>{`page:${page}, num of results: ${results.length}, loading: ${resultsIsLoading}, breakpoint: ${breakpoint}, momentum: ${this.onEndReachedCalledDuringMomentum}`}</Text> */}
 
           {results.length > 0 && (
+            // TODO: fix style when results are odd
             <FlatList
               key={`flatlist-${numOfColumns}-${keywords}`}
               contentContainerStyle={Style.flatList}
@@ -86,19 +95,18 @@ class ExampleScreen extends React.Component {
               renderItem={this.renderItem}
               keyExtractor={this.keyExtractor}
               onEndReachedThreshold={0.9}
-              initialNumToRender={AppLayout.ITEMS_PER_PAGE}
+              initialNumToRender={
+                page === 1 && results.length < AppLayout.ITEMS_PER_PAGE
+                  ? results.length
+                  : AppLayout.ITEMS_PER_PAGE
+              }
               numColumns={numOfColumns}
               columnWrapperStyle={Style.row}
               showsHorizontalScrollIndicator={false}
               onMomentumScrollBegin={() => {
                 this.onEndReachedCalledDuringMomentum = false
               }}
-              onEndReached={() => {
-                if (!this.onEndReachedCalledDuringMomentum) {
-                  this.loadMoreResults()
-                  this.onEndReachedCalledDuringMomentum = true
-                }
-              }}
+              onEndReached={this.endReached}
             />
           )}
         </View>

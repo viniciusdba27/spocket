@@ -11,6 +11,9 @@ const size = {
 }
 
 export default StyleSheet.create({
+  bold: {
+    fontWeight: 'bold',
+  },
   h1: {
     fontSize: size.h1,
   },
@@ -20,16 +23,13 @@ export default StyleSheet.create({
   h3: {
     fontSize: size.h3,
   },
-  normal: {
-    fontSize: size.regular,
-  },
   medium: {
     fontSize: size.medium,
   },
+  normal: {
+    fontSize: size.regular,
+  },
   small: {
     fontSize: size.small,
-  },
-  bold: {
-    fontWeight: 'bold',
   },
 })

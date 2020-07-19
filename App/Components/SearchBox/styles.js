@@ -1,37 +1,40 @@
 import { StyleSheet } from 'react-native'
 import { Colors } from 'App/Theme'
 
+const BUTTON_WIDTH = 75
+
 export default StyleSheet.create({
-  header: {
-    backgroundColor: Colors.white,
-    borderBottomColor: Colors.gray1,
-    borderBottomWidth: 1,
-    height: 100,
+  button: {
+    borderRadius: 0,
+    height: '100%',
+    paddingVertical: 0,
   },
-  headerHidden: {
-    height: 68,
+  buttonContainer: {
+    borderRadius: 0,
   },
-  leftComponent: {
-    color: Colors.gray1,
+  buttonWrapper: {
+    height: '100%',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: BUTTON_WIDTH,
   },
-  logoImg: {
-    height: 30,
-    width: 130,
+  input: {
+    borderColor: Colors.gray1,
+    borderWidth: 2,
   },
-  logoImgPlaceholder: {
-    backgroundColor: Colors.white,
+  inputContainer: {
+    paddingLeft: 0,
+    paddingRight: BUTTON_WIDTH,
   },
-  logoImgSmall: {
-    width: 130,
+  inputError: {
+    height: 0,
+    margin: 0,
   },
-  rightComponent: {
-    color: Colors.white,
+  inputStyle: {
+    height: 0,
   },
-  tabletHeader: {
-    borderTopColor: Colors.gray1,
-    borderTopWidth: 1,
-    height: 50,
-    marginTop: 30,
-    paddingTop: 0,
+  relative: {
+    position: 'relative',
   },
 })

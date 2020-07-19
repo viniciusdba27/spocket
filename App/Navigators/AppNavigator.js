@@ -1,6 +1,6 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 
-import ExampleScreen from 'App/Containers/Example/ExampleScreen'
+import ExampleScreen from 'App/Containers/Example'
 
 const StackNavigator = createStackNavigator(
   {

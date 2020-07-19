@@ -1,6 +1,6 @@
 import { put, call } from 'redux-saga/effects'
 import ExampleActions from 'App/Stores/Example/Actions'
-import { userService } from 'App/Services/UserService'
+import { ResultsService } from 'App/Services/ResultsService'
 
 /**
  * A saga can contain multiple functions.
@@ -9,11 +9,11 @@ import { userService } from 'App/Services/UserService'
  * Feel free to remove it.
  */
 export function* fetchResults(actions) {
-  //console.log('fetchResults keywords and page', actions.data)
+  // console.log('fetchResults keywords and page', actions.data)
 
   // yield put(ExampleActions.fetchUserLoading())
 
-  const data = yield call(userService.fetchResults, actions.data || {})
+  const data = yield call(ResultsService.fetchResults, actions.data || {})
   if (data) {
     yield put(
       ExampleActions.fetchResultsSuccess({
