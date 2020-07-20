@@ -14,15 +14,12 @@ const fetchResults = (state) => ({
   resultsErrorMessage: null,
 })
 
-const fetchResultsSuccess = (state, { data }) => {
-  console.log('REDUCER fetchResultsSuccess', data)
-  return {
-    ...state,
-    results: data.page === 1 ? data.results : state.results.concat(data.results),
-    resultsIsLoading: false,
-    resultsErrorMessage: null,
-  }
-}
+const fetchResultsSuccess = (state, { data }) => ({
+  ...state,
+  results: data.page === 1 ? data.results : state.results.concat(data.results),
+  resultsIsLoading: false,
+  resultsErrorMessage: null,
+})
 
 const fetchResultsFailure = (state, { errorMessage }) => ({
   ...state,

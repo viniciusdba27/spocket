@@ -2,17 +2,7 @@ import { put, call } from 'redux-saga/effects'
 import ExampleActions from 'App/Stores/Example/Actions'
 import { ResultsService } from 'App/Services/ResultsService'
 
-/**
- * A saga can contain multiple functions.
- *
- * This example saga contains only one to fetch fake user informations.
- * Feel free to remove it.
- */
 export function* fetchResults(actions) {
-  // console.log('fetchResults keywords and page', actions.data)
-
-  // yield put(ExampleActions.fetchUserLoading())
-
   const data = yield call(ResultsService.fetchResults, actions.data || {})
   if (data) {
     yield put(

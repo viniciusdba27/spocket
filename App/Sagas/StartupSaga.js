@@ -6,5 +6,5 @@ import AppLayoutActions from 'App/Stores/AppLayout/Actions'
 export function* startup() {
   yield put(ExampleActions.fetchResults())
   yield put(AppLayoutActions.getWindowSize())
-  NavigationService.navigateAndReset('MainScreen')
+  NavigationService.navigateAndReset('MainScreen') // TODO: create files with all routes
 }

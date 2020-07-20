@@ -10,7 +10,7 @@ import { AppLayoutTypes } from 'App/Stores/AppLayout/Actions'
 export default function* root() {
   yield all([
     takeLatest(StartupTypes.STARTUP, startup),
-    // Call `fetchUser()` when a `FETCH_USER` action is triggered
+
     takeLatest(AppLayoutTypes.GET_WINDOW_SIZE, getAppWindowSize),
     takeLatest(ExampleTypes.FETCH_RESULTS, fetchResults),
   ])

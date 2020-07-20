@@ -19,8 +19,6 @@ function fetchResults(actions) {
   }
   return searchApi.get(Config.API_URL, { params }).then((response) => {
     if (response.status) {
-      console.log('SERVICE fetchResults', params)
-      console.log(response.data)
       return response.data
     }
 
