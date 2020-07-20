@@ -142,6 +142,12 @@ android {
         }
     }
     signingConfigs {
+        release {
+            storeFile file('spocket.keystore')
+            storePassword 'Vancouver@2019'
+            keyAlias 'spocket'
+            keyPassword 'Vancouver@2019'
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -150,6 +156,9 @@ android {
         }
     }
     buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
         debug {
             signingConfig signingConfigs.debug
         }

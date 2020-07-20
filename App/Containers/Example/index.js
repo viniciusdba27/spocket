@@ -101,7 +101,7 @@ class ExampleScreen extends React.Component {
                   : AppLayout.ITEMS_PER_PAGE
               }
               numColumns={numOfColumns}
-              columnWrapperStyle={Style.row}
+              columnWrapperStyle={numOfColumns > 1 ? Style.row : null}
               showsHorizontalScrollIndicator={false}
               onMomentumScrollBegin={() => {
                 this.onEndReachedCalledDuringMomentum = false
