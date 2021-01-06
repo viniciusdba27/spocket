@@ -16,7 +16,7 @@
     "ipad": "react-native run-ios --simulator='iPad Air (3rd generation)'"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "country-code-lookup": "^0.0.17",
     "prop-types": "^15.7.2",
     "react": "16.9.0",
